@@ -1,0 +1,45 @@
+#include <stdio.h>
+#define INF 9999
+
+int main() {
+    int a[10][10],d[10],visited[10]={0};
+    int n,i,j,source,min,u;
+
+    scanf("%d",&n);
+
+    for(i=0;i<n;i++)
+        for(j=0;j<n;j++) {
+            scanf("%d",&a[i][j]);
+            if(a[i][j]==0 && i!=j)
+                a[i][j]=INF;
+        }
+
+    printf("Enter source: ");
+    scanf("%d",&source);
+
+    for(i=0;i<n;i++) d[i]=a[source][i];
+    d[source]=0;
+
+    for(i=0;i<n-1;i++) {
+        min=INF;
+        u=-1;
+
+        for(j=0;j<n;j++)
+            if(!visited[j] && d[j]<min) {
+                min=d[j];
+                u=j;
+            }
+
+        if(u==-1) break;
+        visited[u]=1;
+
+        for(j=0;j<n;j++)
+            if(!visited[j] && d[u]+a[u][j]<d[j])
+                d[j]=d[u]+a[u][j];
+    }
+
+    for(i=0;i<n;i++)
+        printf("Distance to %d = %d\n",i,d[i]);
+
+    return 0;
+}
